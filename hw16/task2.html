@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<h1> Задача 2</h1>
+	<p>
+Створити клас TMoney для роботи з грошовими сумами. 
+Сума повинна зберігатися у вигляді доларового еквіваленту. 
+Реалізувати методи додавання/вилучення грошової маси, 
+вказуючи необхідну суму у гривнях, та визначення курсу долара, 
+при якому сума у гривнях збільшиться на 100. 
+Курс долара зберігати в окремому полі. 
+	</p>
+	<script>
+		class TMoney{
+			#dollarExchangeRate
+			constructor(dollarSum, dollarExchangeRate){
+				this.dollarSum = dollarSum
+				this.dollarExchangeRate = dollarExchangeRate
+			}
+			get DollarExchangeRate(){
+				return this.#dollarExchangeRate
+			}
+			set DollarExchangeRate(val){
+				if(val<0)
+				throw new Error(`incorrect value`)
+				this.#dollarExchangeRate = 100/this.dollarSum+val
+			}
+			addMoney(val){
+				let newAmount = val/this.dollarExchangeRate
+				this.dollarSum= Math.floor(this.dollarSum+newAmount)
+			}
+			decreaseMoney(val){
+				let decreaseAmount = val/this.dollarExchangeRate
+				this.dollarSum = Math.floor(this.dollarSum-decreaseAmount)
+			}
+			toString(){
+				return ` ${this.dollarSum}, курс долара ${this.dollarExchangeRate}`
+			}
+		}
+		let money = new TMoney(1000, 35)
+		document.write(`Початкова сума ${money}`)
+		document.write(`<br>`)
+		money.addMoney(2000)
+		document.write(`Збільшена сумма ${money}`)
+		document.write(`<br>`)
+		money.decreaseMoney(200)
+		document.write(`Зменшена сумма ${money}`)
+		document.write(`<br>`)
+	</script>
+</body>
+
+</html>
+

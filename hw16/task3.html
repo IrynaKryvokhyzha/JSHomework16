@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<h1> Задача 3</h1>
+	<p>
+Об’єкт “Фірма” (використати члени-класи)
+поля
+		назва фірми;
+		дата заснування (рік, місяць);
+		послуги (назва послуги, вартість, термін виконання);
+		адреси філіалів (країна, місто, вулиця, номер будинку);
+методи
+		визначення кількості років існування фірми;
+		виведення всіх філіалів фірми у вказаному місті;
+		виведення на екран послуг, що можуть бути виконані за вказану суму грошей та вказаний термін часу;
+
+	</p>
+	<script>
+		class EstablishmentDate{
+			constructor(year, month){
+				this.year = year
+				this.month = month
+			}
+			getCompanyYears(currentYear){
+				return `Company exists ${currentYear-this.year}`
+			}
+
+			toString(){
+				return `${this.year} year, ${this.month} month<br>`
+			}
+		}
+		class Services{
+			constructor(title, price, deadline){
+				this.title = title
+				this.price = price
+				this.deadline = deadline
+			}
+
+			toString(){
+				return `${this.title}, price : ${this.price} uah, deadline : ${this.deadline} hours <br>`
+			}
+		}
+
+		class Branches{
+			constructor(country, city, street, houseNum){
+				this.country = country
+				this.city = city
+				this.street = street
+				this.houseNum = houseNum
+			}
+			toString(){
+				return `${this.country}, ${this.city}, ${this.street}, ${this.houseNum}<br>`
+			}
+		}
+		class Company{
+			constructor(title, services, branches){
+			this.title = title
+			this.services = services
+			this.branches = branches
+			}
+			AvailableService(currentSum, currentDeadline){
+				for (const service of this.services) 
+				if(service.price <= currentSum && service.deadline<= currentDeadline)
+				return `<br>Available service for your price : <br>${service}`
+				}
+			BranchByCity(usercity){
+				let neededArr = []
+				for (const branch of this.branches) 
+					if (branch.city === usercity) 
+					neededArr.push(branch)
+				return `Branches in you city:<br>${neededArr}`
+			}
+			toString(){
+				return `
+				Company : ${this.title}<br>
+				Establishment date : ${years}
+				Services : <br>${this.services}<br>
+				Branches : <br>${this.branches}<br>
+				`
+			}
+		}
+		let services = [
+			new Services('Whole house cleaning',2000, 8),
+			new Services('One bedroom cleaning', 500, 2),
+			new Services('One bedroom & kitchen cleaning', 1000, 4),
+			new Services('Bathroom cleaning', 400, 1),
+			]
+		let branches = [
+				new Branches('Ukraine', 'Chernivtsi', 'Hotynska st.', 2),
+				new Branches('Ukraine', 'Chernivtsi', 'Holovna st.', 55),
+				new Branches('Ukraine', 'Cherkasy', 'Hmelnytska st.', 3),
+				new Branches('Nitherlands', 'Den Haag', 'Straight st.', 7),
+			]
+		let company = new Company('Cleaning Service', services, branches )
+		let years = new EstablishmentDate(2000, 'April')
+		let m1 = company.AvailableService(500, 1)
+		let m2 = company.BranchByCity('Chernivtsi')
+		document.write(company)
+		document.write(`${years.getCompanyYears(2023)} years<br>`)
+		document.write(`<br>${m1}`)
+		document.write(`<br>${m2}`)
+		
+	</script>
+</body>
+
+</html>
+

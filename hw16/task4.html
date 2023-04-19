@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<h1> Задача 4</h1>
+	<p>
+Створити клас TBankomat, який моделює роботу банкомата. 
+Клас повинен містити поля для зберігання кількості купюр кожного із номіналів від 5 до 200 гривень.
+Реалізувати методи знаходження максимальної та мінімальної сум,
+які може видати банкомат, та метод зняття деякої суми.
+	</p>
+	<script>
+		class Banknote{
+			constructor(nominal, quantity){
+				this.nominal = nominal
+				this.quantity = quantity
+			}
+
+			toString(){
+				return `Banknotes = ${this.nominal}, <br> Quantity = ${this.quantity}`
+			}
+		}
+
+		class TBankomat{
+			constructor(banknoteList){
+				this.banknoteList = banknoteList
+			}
+			getMaxSum(){
+				return this.banknoteList.reduce((prevSum,banknote)=>prevSum + banknote.nominal * banknote.quantity,0)
+			}
+			getMinSum(){
+				for (const banknote of this.banknoteList) {
+					return Math.min(banknote.nominal)
+				}
+			}
+			// метод зняття деякої суми трохи сама, трохи в чат GTP питала.
+			// чомусь видає [object,object].
+			moneyToWithDraw(userSum){
+				if(userSum<this.getMinSum() || userSum>this.getMaxSum() )
+				throw new Error(`Incorrect amount`)
+				
+				let availableAmount = userSum
+				let banknotesToWithdraw = {}
+				for (const banknote of this.banknoteList) {
+					if(availableAmount>=banknote){
+					let banknotesRequired = Math.min(Math.floor(availableAmount/banknote), this.banknoteList[banknote])
+						if(banknotesRequired>0)
+						banknotesToWithdraw[banknote] = banknotesRequired
+						availableAmount -= banknote*banknotesRequired
+						this.banknoteList -= banknotesRequired
+					}
+				}
+				return `${banknotesToWithdraw}`
+			}
+			toString(){
+				return `${this.banknoteList}`
+			}
+		}
+		let banknoteList = [
+			new Banknote(5, 200),
+			new Banknote(10, 100),
+			new Banknote(20, 300),
+			new Banknote(50, 100),
+			new Banknote(100, 50),
+			new Banknote(200, 80)
+		]
+
+		let bankomat = new TBankomat(banknoteList)
+		// document.write(`${bankomat}<br>`)
+		document.write(`Maximum sum bankomat can issue = ${bankomat.getMaxSum()}<br>`)
+		document.write(`Minimum sum bankomat can issue = ${bankomat.getMinSum()}<br>`)
+		document.write(`${bankomat.moneyToWithDraw(50)}<br>`)
+	</script>
+</body>
+
+</html>
+
